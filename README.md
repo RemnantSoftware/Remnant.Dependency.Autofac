@@ -8,7 +8,8 @@ Autofac dependency injection adapter
         
 ```csharp
 var autofac = new ContainerBuilder();
-var container = Container.Create("MyContainer", new AutofacAdapter(autofac));
+Container.Create("MyContainer", new AutofacAdapter(autofac));
 autofac.Build();
+var container = Container.Instance;
 ```
 

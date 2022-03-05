@@ -4,7 +4,7 @@ Autofac dependency injection adapter
 
 ## Nuget package:
 
-        Install-Package Remnant.Dependency.Autofac -Version 1.0.0
+        Install-Package Remnant.Dependency.Autofac -Version 1.0.1
         
 ```csharp
 var autofac = new ContainerBuilder();

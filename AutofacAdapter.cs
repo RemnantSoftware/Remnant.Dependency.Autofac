@@ -34,16 +34,22 @@ namespace Remnant.Dependency.Autofac
 			throw new NotSupportedException("Deregister not supported for autofac for now.");
 		}
 
-		public IContainer Register<TType>(TType instance) where TType : class
+		public IContainer Register<TType>(object instance) where TType : class
 		{
 			_containerBuilder.RegisterInstance(instance).As(typeof(TType));
 			return this;
 		}
 
+		public IContainer Register(Type type, object instance)
+		{
+			_containerBuilder.RegisterInstance(instance).As(type);
+			return this;	
+		}
+
 		public IContainer Register(object instance)
 		{
 			_containerBuilder.RegisterInstance(instance).As(instance.GetType());
-			return this;	
+			return this;
 		}
 
 		public IContainer Register<TType>() where TType : class, new()

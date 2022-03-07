@@ -12,10 +12,7 @@ namespace Remnant.Dependency.Autofac
 
 		public AutofacAdapter(ContainerBuilder containerBuilder)
 		{
-			if (containerBuilder == null)
-				throw new ArgumentNullException(nameof(containerBuilder));
-
-			_containerBuilder = containerBuilder;
+			_containerBuilder = containerBuilder ?? throw new ArgumentNullException(nameof(containerBuilder));
 			containerBuilder.RegisterBuildCallback((container) => { _container = container as IAutofacContainer; });
 		}
 
@@ -69,6 +66,17 @@ namespace Remnant.Dependency.Autofac
 		public TType ResolveInstance<TType>() where TType : class
 		{
 			return _container.Resolve<TType>();
+		}
+
+		public TContainer InternalContainer<TContainer>() where TContainer : class
+		{
+			if (_container == null)
+				throw new InvalidOperationException("The Autofac container is null, ensure you have called 'Build' which creates the container via callback.");
+
+			if (_container as TContainer == null)
+				throw new InvalidCastException($"The internal container is of type {_container.GetType().FullName} and cannot be cast to {typeof(TContainer).FullName}");
+
+			return _container as TContainer;
 		}
 	}
 }
